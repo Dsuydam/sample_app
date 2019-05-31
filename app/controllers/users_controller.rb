@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+<<<<<<< HEAD
     def create
     @user = User.new(user_params)
     if @user.save
@@ -65,3 +66,9 @@ end
     end
   end
   
+=======
+
+  def new
+  end
+end
+>>>>>>> sign-up
