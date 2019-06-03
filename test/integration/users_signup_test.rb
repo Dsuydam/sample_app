@@ -1,60 +1,30 @@
-require 'test_helper'
+ENV['RAILS_ENV'] ||= 'test'
+
+require File.expand_path('../../config/environment', __FILE__)
+
+require 'rails/test_help'
+
+require "minitest/reporters"
+
+Minitest::Reporters.use!
 
 
 
-class UsersSignupTest < ActionDispatch::IntegrationTest
+class ActiveSupport::TestCase
+
+  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+
+  fixtures :all
+
+  include ApplicationHelper
 
 
 
-  test "invalid signup information" do
+  # Returns true if a test user is logged in.
 
-    get signup_path
+  def is_logged_in?
 
-    assert_no_difference 'User.count' do
-
-      post users_path, params: { user: { name:  "",
-
-                                         email: "user@invalid",
-
-                                         password:              "foo",
-
-                                         password_confirmation: "bar" } }
-
-    end
-
-    assert_template 'users/new'
-
-    assert_select 'div#error_explanation'
-
-    assert_select 'div.alert.alert-danger'
-
-    assert_not flash[:success]
-
-  end
-
-
-
-  test "valid signup information" do
-
-    get signup_path
-
-    assert_difference 'User.count', 1 do
-
-      post users_path, params: { user: { name:  "Example User",
-
-                                         email: "user@example.com",
-
-                                         password:              "password",
-
-                                         password_confirmation: "password" } }
-
-    end
-
-    follow_redirect!
-
-    assert_template 'users/show'
-
-    assert flash[:success]
+    !session[:user_id].nil?
 
   end
 
